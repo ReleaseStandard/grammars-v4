@@ -109,6 +109,18 @@ LSHIFT                 : '<<';
 RSHIFT                 : '>>';
 BIT_CLEAR              : '&^';
 
+PLUS_ASSIGN            : '+=';
+MINUS_ASSIGN           : '-=';
+STAR_ASSIGN            : '*=';
+DIV_ASSIGN             : '/=';
+MOD_ASSIGN             : '%=';
+LOGICAL_AND_ASSIGN     : '&=';
+LOGICAL_OR_ASSIGN      : '|=';
+CARET_ASSIGN           : '^=';
+LSHIFT_ASSIGN          : '<<=';
+RSHIFT_ASSIGN          : '>>=';
+BIT_CLEAR_ASSIGN       : '&^=';
+
 // Unary operators
 
 EXCLAMATION            : '!';
