@@ -28,7 +28,7 @@
 
 /*
  * From the man pages here : https://linux.die.net/man/1/mksh
- *
+ * All CAT_* tokens could be ignored
  */
 
 lexer grammar MkshLexer; 
@@ -51,22 +51,94 @@ ELIF                      : 'elif';
 FOR                       : 'for';
 SELECT                    : 'select';
 WHILE                     : 'while';
+CAT_KEYWORDS              : CASE | ELSE | FUNCTION | THEN | DO | ESAC | IF | TIME | DONE | FI | IN | UNTIL | ELIF | FOR | SELECT | WHILE;
 
 
-IDENTIFIER             : LETTER (LETTER | UNICODE_DIGIT)*;
+// Additionnal builtins that all mksh shells will have
+BREAK                     : 'break';
+CONTINUE                  : 'continue';
+EVAL                      : 'eval';
+EXEC                      : 'exec';
+EXIT                      : 'exit';
+EXPORT                    : 'export';
+READONLY                  : 'readonly';
+RETURN                    : 'return';
+SET                       : 'set';
+SHIFT                     : 'shift';
+TIMES                     : 'times';
+TRAP                      : 'trap';
+UNSET                     : 'unset';
+BUILTIN                   : 'builtint';
+GLOBAL                    : 'global';
+TYPESET                   : 'typeset';
+WAIT                      : 'wait';
+ALIAS                     : 'alias';
+BG                        : 'bg';
+BIND                      : 'bind';
+CAT                       : 'cat';
+CD                        : 'cd';
+COMMAND                   : 'command';
+ECHO                      : 'echo';
+FALSE                     : 'false';
+TRUE                      : 'true';
+FC                        : 'fc';
+FG                        : 'fg';
+GETOPTS                   : 'getopts';
+JOBS                      : 'jobs';
+KILL                      : 'kill';
+LET                       : 'let';
+MKNOD                     : 'mknod';
+PRINT                     : 'print';
+PWD                       : 'pwd';
+READ                      : 'read';
+REALPATH                  : 'realpath';
+RENAME                    : 'rename';
+SLEEP                     : 'sleep';
+SUSPEND                   : 'suspend';
+TEST                      : 'test';
+ULIMIT                    : 'ulimit';
+UMASK                     : 'umask';
+UNALIAS                   : 'unalias';
+WHENCE                    : 'whence';
+SQ_BRACKET_OPEN           : '[';
+SQ_BRACKET_CLOSE          : ']';
+PERIOD                    : '.';
+COLON                     : ':';
+CAT_ADDITIONNAL_BUILTINS  : BREAK | CONTINUE | EVAL | EXEC | EXIT | EXPORT | READONLY | RETURN | SET | SHIFT | TIMES | TRAP | UNSET | BUILTIN | GLOBAL | 
+                            TYPESET | WAIT | ALIAS | BG | BIND | CAT | CD | COMMAND | ECHO | FALSE | TRUE | FC | FG | GETOPTS | JOBS | KILL | LET | 
+                            MKNOD | PRINT | PWD | READ | REALPATH | RENAME | SLEEP | SUSPEND | TEST | ULIMIT | UMASK | UNALIAS | WHENCE | 
+                            SQ_BRACKET_OPEN | SQ_BRACKET_CLOSE | PERIOD | COLON;
 
-WS                     : [ \t]+             -> channel(HIDDEN);
-TERMINATOR             : [\r\n]+            -> channel(HIDDEN);
-LINE_COMMENT           : '#' ~[\r\n]*       -> channel(HIDDEN);
+// Punctuations
+P_SEMI                    : ';';
+P_INTERO                  : '?';
+P_PUNCTUATIONS            : P_SEMI | P_INTERO;
+
+IDENTIFIER                : LETTER (LETTER | UNICODE_DIGIT)*;
+
+WS                        : [ \t]+             -> channel(HIDDEN);
+TERMINATOR                : [\r\n]+            -> channel(HIDDEN);
+LINE_COMMENT              : '#' ~[\r\n]*       -> channel(HIDDEN);
+
+// types
+STRING                    : '"' LETTER* '"' | '\'' LETTER* '\'';
+
+// operators
+L_SHIFT                   : '<<';
+R_SHIFT                   : '>>';
+GT                        : '>';
+LT                        : '<';
+OPERATORS                 : L_SHIFT | R_SHIFT | GT | LT;
 
 //// Let expressions
-LET                       : 'let' LET_EXPRESSION;
-LET_SYM                   : '((' LET_EXPRESSION '))';
-LET_EXPRESSION            : ( LET_OPERANDS LET_OPERATOR_B LET_OPERANDS | LET_OPERANDS ) ;
-LET_OPERANDS              : ( '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '0' )*;
-LET_OPERATOR_B            : ( LET_MINUS | LET_PLUS | LET_STAR | LET_DIV | LET_EXPO | LET_AND | LET_OR | LET_LE | LET_GE | LET_L | LET_G | LET_EQ | LET_NE | LET_BAND | LET_BXOR | LET_BOR | LET_L_SHIFT | LET_R_SHIFT |
-				LET_ASS | LET_ASS_STAR | LET_ASS_DIV | LET_ASS_MOD | LET_ASS_PLUS | LET_ASS_MINUS | LET_ASS_L_SHIFT | LET_ASS_R_SHIFT | LET_ASS_BAND | LET_ASS_BXOR | LET_ASS_BOR ) ;
-LET_OPERATOR_U            : ( LET_NEG | LET_BNEG ) ;
+//LET                     : 'let' LET_EXPRESSION;
+//LET_SYM                 : '((' LET_EXPRESSION '))';
+//LET_EXPRESSION          : ( LET_OPERANDS LET_OPERATOR_B LET_OPERANDS | LET_OPERANDS ) ;
+//LET_OPERANDS            : ( '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '0' )*;
+LET_OPERATOR_B            : LET_MINUS | LET_PLUS | LET_STAR | LET_DIV | LET_EXPO | LET_AND | LET_OR | LET_LE | LET_GE | LET_L | LET_G | LET_EQ | LET_NE | LET_BAND | LET_BXOR | LET_BOR | LET_L_SHIFT | LET_R_SHIFT |
+				LET_ASS | LET_ASS_STAR | LET_ASS_DIV | LET_ASS_MOD | LET_ASS_PLUS | LET_ASS_MINUS | LET_ASS_L_SHIFT | LET_ASS_R_SHIFT | LET_ASS_BAND | LET_ASS_BXOR | LET_ASS_BOR ;
+LET_OPERATOR_U            : LET_NEG | LET_BNEG ;
+LET_OPERATOR              : LET_OPERATOR_U | LET_OPERATOR_B ;
 
 // Arithmetic operators
 LET_MINUS                 : '-';
@@ -74,6 +146,9 @@ LET_PLUS                  : '+';
 LET_STAR                  : '*';
 LET_DIV                   : '/';
 LET_EXPO                  : '**';
+LET_INC                   : '++';
+LET_DEC                   : '--';
+LET_COMMA                 : ',';
 
 // Logical operators
 LET_NEG                   : '!';
@@ -93,7 +168,8 @@ LET_BAND                  : '&';
 LET_BXOR                  : '^';
 LET_BOR                   : '|';
 LET_BNEG                  : '~';
-LET_IF_ELSE               : LET_EXPRESSION '?' LET_EXPRESSION ':' LET_EXPRESSION;
+//LET_IF_ELSE               : LET_EXPRESSION '?' LET_EXPRESSION ':' LET_EXPRESSION;
+LET_IF_ELSE                 : 'not set';
 // Assignements
 LET_ASS                   : '=';
 LET_ASS_STAR              : '*=';
