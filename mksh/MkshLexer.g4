@@ -122,7 +122,7 @@ TERMINATOR                : [\r\n]+            -> channel(HIDDEN);
 LINE_COMMENT              : '#' ~[\r\n]*       -> channel(HIDDEN);
 
 // types
-STRING                    : '"' (LETTER | UNICODE_DIGIT)* '"' | '\'' (LETTER | UNICODE_DIGIT)* '\'';
+STRING                    : '"' ~[.]* '"' | '\'' ~[.]* '\'';
 
 
 
