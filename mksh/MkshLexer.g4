@@ -35,84 +35,85 @@ lexer grammar MkshLexer;
 
 // Keywords
 
-CASE                      : 'case';
-ELSE                      : 'else';
-FUNCTION                  : 'function';
-THEN                      : 'then';
-DO                        : 'do';
-ESAC                      : 'esac';
-IF                        : 'if';
-TIME                      : 'time';
-DONE                      : 'done';
-FI                        : 'fi';
-IN                        : 'in';
-UNTIL                     : 'until';
-ELIF                      : 'elif';
-FOR                       : 'for';
-SELECT                    : 'select';
-WHILE                     : 'while';
-CAT_KEYWORDS              : CASE | ELSE | FUNCTION | THEN | DO | ESAC | IF | TIME | DONE | FI | IN | UNTIL | ELIF | FOR | SELECT | WHILE;
+fragment CASE                      : 'case';
+fragment ELSE                      : 'else';
+fragment FUNCTION                  : 'function';
+fragment THEN                      : 'then';
+fragment DO                        : 'do';
+fragment ESAC                      : 'esac';
+fragment IF                        : 'if';
+fragment TIME                      : 'time';
+fragment DONE                      : 'done';
+fragment FI                        : 'fi';
+fragment IN                        : 'in';
+fragment UNTIL                     : 'until';
+fragment ELIF                      : 'elif';
+fragment FOR                       : 'for';
+fragment SELECT                    : 'select';
+fragment WHILE                     : 'while';
+CAT_KEYWORDS                       : CASE | ELSE | FUNCTION | THEN | DO | ESAC | IF | TIME | DONE | FI | IN | UNTIL | ELIF | FOR | SELECT | WHILE;
 
 
 // Additionnal builtins that all mksh shells will have
-BREAK                     : 'break';
-CONTINUE                  : 'continue';
-EVAL                      : 'eval';
-EXEC                      : 'exec';
-EXIT                      : 'exit';
-EXPORT                    : 'export';
-READONLY                  : 'readonly';
-RETURN                    : 'return';
-SET                       : 'set';
-SHIFT                     : 'shift';
-TIMES                     : 'times';
-TRAP                      : 'trap';
-UNSET                     : 'unset';
-BUILTIN                   : 'builtint';
-GLOBAL                    : 'global';
-TYPESET                   : 'typeset';
-WAIT                      : 'wait';
-ALIAS                     : 'alias';
-BG                        : 'bg';
-BIND                      : 'bind';
-CAT                       : 'cat';
-CD                        : 'cd';
-COMMAND                   : 'command';
-ECHO                      : 'echo';
-FALSE                     : 'false';
-TRUE                      : 'true';
-FC                        : 'fc';
-FG                        : 'fg';
-GETOPTS                   : 'getopts';
-JOBS                      : 'jobs';
-KILL                      : 'kill';
-LET                       : 'let';
-MKNOD                     : 'mknod';
-PRINT                     : 'print';
-PWD                       : 'pwd';
-READ                      : 'read';
-REALPATH                  : 'realpath';
-RENAME                    : 'rename';
-SLEEP                     : 'sleep';
-SUSPEND                   : 'suspend';
-TEST                      : 'test';
-ULIMIT                    : 'ulimit';
-UMASK                     : 'umask';
-UNALIAS                   : 'unalias';
-WHENCE                    : 'whence';
-SQ_BRACKET_OPEN           : '[';
-SQ_BRACKET_CLOSE          : ']';
-PERIOD                    : '.';
-COLON                     : ':';
+fragment BREAK                     : 'break';
+fragment CONTINUE                  : 'continue';
+fragment EVAL                      : 'eval';
+fragment EXEC                      : 'exec';
+fragment EXIT                      : 'exit';
+fragment EXPORT                    : 'export';
+fragment READONLY                  : 'readonly';
+fragment RETURN                    : 'return';
+fragment SET                       : 'set';
+fragment SHIFT                     : 'shift';
+fragment TIMES                     : 'times';
+fragment TRAP                      : 'trap';
+fragment UNSET                     : 'unset';
+fragment BUILTIN                   : 'builtint';
+fragment GLOBAL                    : 'global';
+fragment TYPESET                   : 'typeset';
+fragment WAIT                      : 'wait';
+fragment ALIAS                     : 'alias';
+fragment BG                        : 'bg';
+fragment BIND                      : 'bind';
+fragment CAT                       : 'cat';
+fragment CD                        : 'cd';
+fragment COMMAND                   : 'command';
+fragment ECHO                      : 'echo';
+fragment FALSE                     : 'false';
+fragment TRUE                      : 'true';
+fragment FC                        : 'fc';
+fragment FG                        : 'fg';
+fragment GETOPTS                   : 'getopts';
+fragment JOBS                      : 'jobs';
+fragment KILL                      : 'kill';
+fragment LET                       : 'let';
+fragment MKNOD                     : 'mknod';
+fragment PRINT                     : 'print';
+fragment PWD                       : 'pwd';
+fragment READ                      : 'read';
+fragment REALPATH                  : 'realpath';
+fragment RENAME                    : 'rename';
+fragment SLEEP                     : 'sleep';
+fragment SUSPEND                   : 'suspend';
+fragment TEST                      : 'test';
+fragment ULIMIT                    : 'ulimit';
+fragment UMASK                     : 'umask';
+fragment UNALIAS                   : 'unalias';
+fragment WHENCE                    : 'whence';
+fragment SQ_BRACKET_OPEN           : '[';
+fragment SQ_BRACKET_CLOSE          : ']';
+fragment PERIOD                    : '.';
+fragment COLON                     : ':';
 CAT_ADDITIONNAL_BUILTINS  : BREAK | CONTINUE | EVAL | EXEC | EXIT | EXPORT | READONLY | RETURN | SET | SHIFT | TIMES | TRAP | UNSET | BUILTIN | GLOBAL | 
                             TYPESET | WAIT | ALIAS | BG | BIND | CAT | CD | COMMAND | ECHO | FALSE | TRUE | FC | FG | GETOPTS | JOBS | KILL | LET | 
                             MKNOD | PRINT | PWD | READ | REALPATH | RENAME | SLEEP | SUSPEND | TEST | ULIMIT | UMASK | UNALIAS | WHENCE | 
                             SQ_BRACKET_OPEN | SQ_BRACKET_CLOSE | PERIOD | COLON;
 
 // Punctuations
-P_SEMI                    : ';';
-P_INTERO                  : '?';
+fragment P_SEMI                    : ';';
+fragment P_INTERO                  : '?';
 P_PUNCTUATIONS            : P_SEMI | P_INTERO;
+
 
 IDENTIFIER                : LETTER (LETTER | UNICODE_DIGIT)*;
 
@@ -121,13 +122,15 @@ TERMINATOR                : [\r\n]+            -> channel(HIDDEN);
 LINE_COMMENT              : '#' ~[\r\n]*       -> channel(HIDDEN);
 
 // types
-STRING                    : '"' LETTER* '"' | '\'' LETTER* '\'';
+STRING                    : '"' (LETTER | UNICODE_DIGIT)* '"' | '\'' (LETTER | UNICODE_DIGIT)* '\'';
+
+
 
 // operators
-L_SHIFT                   : '<<';
-R_SHIFT                   : '>>';
-GT                        : '>';
-LT                        : '<';
+fragment L_SHIFT                   : '<<';
+fragment R_SHIFT                   : '>>';
+fragment GT                        : '>';
+fragment LT                        : '<';
 OPERATORS                 : L_SHIFT | R_SHIFT | GT | LT;
 
 //// Let expressions
@@ -141,47 +144,47 @@ LET_OPERATOR_U            : LET_NEG | LET_BNEG ;
 LET_OPERATOR              : LET_OPERATOR_U | LET_OPERATOR_B ;
 
 // Arithmetic operators
-LET_MINUS                 : '-';
-LET_PLUS                  : '+';
-LET_STAR                  : '*';
-LET_DIV                   : '/';
-LET_EXPO                  : '**';
-LET_INC                   : '++';
-LET_DEC                   : '--';
-LET_COMMA                 : ',';
+fragment LET_MINUS                 : '-';
+fragment LET_PLUS                  : '+';
+fragment LET_STAR                  : '*';
+fragment LET_DIV                   : '/';
+fragment LET_EXPO                  : '**';
+fragment LET_INC                   : '++';
+fragment LET_DEC                   : '--';
+fragment LET_COMMA                 : ',';
 
 // Logical operators
-LET_NEG                   : '!';
-LET_AND                   : '&&';
-LET_OR                    : '||';
-LET_LE                    : '<=';
-LET_GE                    : '>=';
-LET_L                     : '<';
-LET_G                     : '>';
-LET_EQ                    : '==';
-LET_NE                    : '!=';
+fragment LET_NEG                   : '!';
+fragment LET_AND                   : '&&';
+fragment LET_OR                    : '||';
+fragment LET_LE                    : '<=';
+fragment LET_GE                    : '>=';
+fragment LET_L                     : '<';
+fragment LET_G                     : '>';
+fragment LET_EQ                    : '==';
+fragment LET_NE                    : '!=';
 
 // Binary operations
-LET_L_SHIFT               : '<<';
-LET_R_SHIFT               : '>>';
-LET_BAND                  : '&';
-LET_BXOR                  : '^';
-LET_BOR                   : '|';
-LET_BNEG                  : '~';
+fragment LET_L_SHIFT               : '<<';
+fragment LET_R_SHIFT               : '>>';
+fragment LET_BAND                  : '&';
+fragment LET_BXOR                  : '^';
+fragment LET_BOR                   : '|';
+fragment LET_BNEG                  : '~';
 //LET_IF_ELSE               : LET_EXPRESSION '?' LET_EXPRESSION ':' LET_EXPRESSION;
 LET_IF_ELSE                 : 'not set';
 // Assignements
-LET_ASS                   : '=';
-LET_ASS_STAR              : '*=';
-LET_ASS_DIV               : '/=';
-LET_ASS_MOD               : '%=';
-LET_ASS_PLUS              : '+=';
-LET_ASS_MINUS             : '-=';
-LET_ASS_L_SHIFT           : '<<=';
-LET_ASS_R_SHIFT           : '>>=';
-LET_ASS_BAND              : '&=';
-LET_ASS_BXOR              : '^=';
-LET_ASS_BOR               : '|=';
+fragment LET_ASS                   : '=';
+fragment LET_ASS_STAR              : '*=';
+fragment LET_ASS_DIV               : '/=';
+fragment LET_ASS_MOD               : '%=';
+fragment LET_ASS_PLUS              : '+=';
+fragment LET_ASS_MINUS             : '-=';
+fragment LET_ASS_L_SHIFT           : '<<=';
+fragment LET_ASS_R_SHIFT           : '>>=';
+fragment LET_ASS_BAND              : '&=';
+fragment LET_ASS_BXOR              : '^=';
+fragment LET_ASS_BOR               : '|=';
 
 // id++, id--	variable post-increment, post-decrement
 // ++id, --id	variable pre-increment, pre-decrement
